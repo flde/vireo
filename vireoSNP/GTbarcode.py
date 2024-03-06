@@ -101,16 +101,20 @@ def main():
     var_ids, GT_vals = var_ids[idx], GT_vals[idx, :]
 
     res_barcodes = variant_select(GT_vals, DP, rand_seed=options.rand_seed)
+
     fid = open(out_file, "w")
     #fid.writelines("\n".join(["barcodes"] + sample_ids) + "\n")
     fid.writelines("\t".join(["variants"] + sample_ids) + "\n")
-    for i in res_barcodes[2]:
+
+    for i in res_barcodes[2][0]:
+        
         line_list = [var_ids[i]] + ["%d" %x for x in GT_vals[i, :]]
         fid.writelines("\t".join(line_list) + "\n")
+
     fid.close()
 
     ## plot
-    if options.no_plot == False:
+    if options.no_plot == True:
         fig_size = np.array(options.fig_size.split(","), float)
         import matplotlib.pyplot as plt
         fig = plt.figure(figsize=(fig_size[0], fig_size[1]), dpi=300)
